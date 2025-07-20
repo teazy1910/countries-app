@@ -1,5 +1,5 @@
-import React from "react";
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import countriesData from "../data.json";
 import Article from "./Article";
 
 const Countries = () => {
@@ -26,40 +26,15 @@ const Countries = () => {
     },
   ];
 
-  useEffect(() => {
-    const getCountries = async () => {
-      try {
-        const res = await fetch("https://restcountries.com/v3.1/all");
-        const data = await res.json();
-        setCountries(data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    getCountries();
-  }, []);
-
   async function searchCountry() {
-    try {
-      const res = await fetch(
-        `https://restcountries.com/v3.1/name/${searchText}`
-      );
-      const data = await res.json();
-      setCountries(data);
-    } catch (error) {
-      console.error(error);
-    }
+    const res = fetch("/src/data.json");
+    const data = await res.json();
+    setCountries(data);
   }
   async function filterByRegion(region) {
-    try {
-      const res = await fetch(
-        `https://restcountries.com/v3.1/region/${region}`
-      );
-      const data = await res.json();
-      setCountries(data);
-    } catch (error) {
-      console.error(error);
-    }
+    const res = fetch("/src/data.json");
+    const data = await res.json();
+    setCountries(data);
   }
 
   function handleSearchCountry(e) {
@@ -104,7 +79,7 @@ const Countries = () => {
                   name="filter-by-region"
                   id="filter-by-region"
                   className="w-52 py-3 px-4 outline-none shadow rounded text-gray-600 dark:text-gray-400 dark:bg-gray-800  dark:focus:bg-gray-700">
-                  {regions.map((region, index) => (
+                  {countriesData.map((region, index) => (
                     <option key={index} value={region.name}>
                       {region.name}
                     </option>
@@ -113,8 +88,8 @@ const Countries = () => {
               </form>
             </div>
             <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
-              {countries.map((country) => (
-                <Article key={country.name.common} {...country} />
+              {countriesData.map((country) => (
+                <Article key={country.name} {...country} />
               ))}
             </div>
           </section>
