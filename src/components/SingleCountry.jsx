@@ -1,12 +1,10 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import countriesData from "../data.json";
 
 export const SingleCountry = () => {
   const { name } = useParams();
 
-  // Finde das EINE Land, das zum URL-Parameter passt
-  // Annahme: Die URL verwendet den allgemeinen Namen (common name)
   const singleCountry = countriesData.find((country) => country.name === name);
 
   // Setze den Dokumententitel, wenn sich der Name ändert
@@ -42,7 +40,7 @@ export const SingleCountry = () => {
           </article>
           <article>
             <h1 className="font-bold text-gray-900 dark:text-white text-4xl lg-text-6xl mb-8">
-              {singleCountry.name.official}
+              {singleCountry.name}
             </h1>
             <ul className="mt-4 flex flex-col items-start justify-start gap-2 text-slate-700 dark:text-gray-400 mb-3">
               <li>Capital: {singleCountry.capital}</li>

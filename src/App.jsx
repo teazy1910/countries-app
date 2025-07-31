@@ -16,9 +16,9 @@ function App() {
   return (
     <>
       <div className="dark:bg-gray-800 dark:text-white">
-        <button className="" onClick={() => darkModeHandler()}>
-          {dark && <IoSunny />}
-          {!dark && <IoMoon />}
+        <button className="p-4" onClick={() => darkModeHandler()}>
+          {dark && <IoSunny size={28} />}
+          {!dark && <IoMoon size={28} />}
         </button>
       </div>
       <BrowserRouter>

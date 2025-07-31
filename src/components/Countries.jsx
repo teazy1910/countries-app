@@ -1,5 +1,4 @@
-import { useState } from "react";
-import countriesData from "../data.json";
+import { useState, useEffect } from "react";
 import Article from "./Article";
 
 const Countries = () => {
@@ -11,30 +10,46 @@ const Countries = () => {
     },
     {
       name: "Europe",
+      matches: (country) => country.region === "Europe",
     },
     {
       name: "Asia",
+      matches: (country) => country.region === "Asia",
     },
     {
       name: "Africa",
+      matches: (country) => country.region === "Africa",
     },
     {
       name: "Americas",
+      matches: (country) => country.region === "Americas",
     },
     {
       name: "Oceania",
+      matches: (country) => country.region === "Oceania",
     },
   ];
 
-  async function searchCountry() {
-    const res = fetch("/src/data.json");
-    const data = await res.json();
-    setCountries(data);
+  useEffect(() => {
+    loadCountries().then(setCountries);
+  }, []);
+
+  async function loadCountries() {
+    return await fetch("/src/data.json").then((response) => response.json());
   }
-  async function filterByRegion(region) {
-    const res = fetch("/src/data.json");
-    const data = await res.json();
-    setCountries(data);
+
+  async function searchCountry() {
+    const res = await fetch("./data.json");
+    return res;
+  }
+
+  function filterByRegion(filterIndex) {
+    let regionFilter = regions[filterIndex];
+    loadCountries()
+      .then((reloadedCountries) =>
+        reloadedCountries.filter(regionFilter.matches)
+      )
+      .then(setCountries);
   }
 
   function handleSearchCountry(e) {
@@ -44,7 +59,7 @@ const Countries = () => {
 
   function handleFilterByRegion(e) {
     e.preventDefault();
-    searchCountry();
+    // filterByRegion();
   }
 
   return (
@@ -79,8 +94,8 @@ const Countries = () => {
                   name="filter-by-region"
                   id="filter-by-region"
                   className="w-52 py-3 px-4 outline-none shadow rounded text-gray-600 dark:text-gray-400 dark:bg-gray-800  dark:focus:bg-gray-700">
-                  {countriesData.map((region, index) => (
-                    <option key={index} value={region.name}>
+                  {regions.map((region, index) => (
+                    <option key={index} value={index}>
                       {region.name}
                     </option>
                   ))}
@@ -88,7 +103,7 @@ const Countries = () => {
               </form>
             </div>
             <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
-              {countriesData.map((country) => (
+              {countries.map((country) => (
                 <Article key={country.name} {...country} />
               ))}
             </div>
