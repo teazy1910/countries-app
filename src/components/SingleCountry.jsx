@@ -1,11 +1,13 @@
 import { useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
-import countriesData from "/data.json";
+import countriesData from "/data.json?url&raw";
 
 export const SingleCountry = () => {
   const { name } = useParams();
 
-  const singleCountry = countriesData.find((country) => country.name === name);
+  const singleCountry = JSON.parse(countriesData).find(
+    (country) => country.name === name
+  );
 
   // Setze den Dokumententitel, wenn sich der Name ändert
   useEffect(() => {
