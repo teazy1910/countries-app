@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
-import countriesData from "../data.json";
+import countriesData from "/data.json";
 
 export const SingleCountry = () => {
   const { name } = useParams();

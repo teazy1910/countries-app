@@ -29,7 +29,7 @@ const Countries = () => {
   useEffect(() => {
     const fetchCountries = async () => {
       try {
-        const response = await fetch("/src/data.json");
+        const response = await fetch("/data.json");
         const data = await response.json();
         setAllCountries(data);
         setFilteredCountries(data);
